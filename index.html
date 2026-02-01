@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALE Legion - Free AI Studio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="background-animation">
+        <canvas id="particles"></canvas>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">🤖</div>
+                <div class="logo-text">
+                    <h1>ALE Legion</h1>
+                    <p>Free AI Studio - No API Keys</p>
+                </div>
+            </div>
+            
+            <div class="header-controls">
+                <div class="status-indicator" id="statusIndicator">
+                    <div class="status-dot"></div>
+                    <span>Checking...</span>
+                </div>
+                <button class="btn-icon" id="settingsBtn" title="Settings">⚙️</button>
+                <button class="btn-icon" id="themeToggle" title="Toggle Theme">🌓</button>
+            </div>
+        </header>
+
+        <!-- AI Legion Selector -->
+        <div class="ai-selector">
+            <div class="ai-grid" id="aiGrid">
+                <!-- AI cards will be dynamically generated -->
+            </div>
+        </div>
+
+        <!-- Main Chat Interface -->
+        <div class="chat-container">
+            <!-- Chat Messages -->
+            <div class="chat-messages" id="chatMessages">
+                <div class="welcome-screen">
+                    <div class="welcome-icon">✨</div>
+                    <h2>Welcome to ALE Legion</h2>
+                    <p>Your free, privacy-focused AI assistant</p>
+                    <div class="features-grid">
+                        <div class="feature">
+                            <span class="feature-icon">🔒</span>
+                            <span>100% Private</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">⚡</span>
+                            <span>Lightning Fast</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">💰</span>
+                            <span>Completely Free</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">🌐</span>
+                            <span>Works Offline</span>
+                        </div>
+                    </div>
+                    <div class="quick-actions">
+                        <button class="quick-action" data-prompt="Explain quantum computing in simple terms">
+                            💡 Explain Concepts
+                        </button>
+                        <button class="quick-action" data-prompt="Write a creative short story about AI">
+                            ✍️ Creative Writing
+                        </button>
+                        <button class="quick-action" data-prompt="Help me debug this code">
+                            🐛 Code Debugging
+                        </button>
+                        <button class="quick-action" data-prompt="Analyze this image">
+                            🖼️ Image Analysis
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-container">
+                <div class="input-wrapper">
+                    <button class="btn-attach" id="attachBtn" title="Attach Image">
+                        📎
+                    </button>
+                    <textarea 
+                        id="messageInput" 
+                        placeholder="Ask me anything... (Press Enter to send, Shift+Enter for new line)"
+                        rows="1"
+                    ></textarea>
+                    <button class="btn-send" id="sendBtn" title="Send Message">
+                        <span class="send-icon">➤</span>
+                    </button>
+                </div>
+                <div class="input-footer">
+                    <span class="model-info" id="modelInfo">Using: Simulated Mode</span>
+                    <span class="word-count" id="wordCount">0 words</span>
+                </div>
+                <input type="file" id="imageInput" accept="image/*" style="display: none;">
+            </div>
+        </div>
+
+        <!-- Side Panel (Stats & Settings) -->
+        <div class="side-panel" id="sidePanel">
+            <div class="panel-header">
+                <h3>Statistics</h3>
+                <button class="btn-close" id="closePanelBtn">×</button>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">💬</div>
+                    <div class="stat-value" id="totalMessages">0</div>
+                    <div class="stat-label">Messages</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⚡</div>
+                    <div class="stat-value" id="avgResponse">0ms</div>
+                    <div class="stat-label">Avg Response</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-value" id="accuracy">100%</div>
+                    <div class="stat-label">Accuracy</div>
+                </div>
+            </div>
+
+            <div class="panel-section">
+                <h4>Active Models</h4>
+                <div id="modelsList" class="models-list">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+
+            <div class="panel-section">
+                <h4>Settings</h4>
+                <div class="settings-list">
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="streamResponses" checked>
+                            <span>Stream Responses</span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="codeHighlight" checked>
+                            <span>Code Highlighting</span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="soundEffects">
+                            <span>Sound Effects</span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label>Temperature: <span id="tempValue">0.7</span></label>
+                        <input type="range" id="temperature" min="0" max="1" step="0.1" value="0.7">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Preview Modal -->
+    <div class="modal" id="imageModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeImageModal">×</button>
+            <div class="image-preview-container">
+                <img id="previewImage" alt="Preview">
+                <div class="image-actions">
+                    <button class="btn-primary" id="analyzeImageBtn">🔍 Analyze Image</button>
+                    <button class="btn-secondary" id="removeImageBtn">🗑️ Remove</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>AI is thinking...</p>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Scripts -->
+    <script type="module" src="app.js"></script>
+</body>
+</html>
