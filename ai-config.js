@@ -3,7 +3,7 @@
 
 export const AI_CONFIG = {
   // Ollama local server (free, open source)
-  OLLAMA_BASE_URL: process.env.OLLAMA_URL || 'http://localhost:11434',
+  OLLAMA_BASE_URL: (typeof process !== 'undefined' && process.env?.OLLAMA_URL) || 'http://localhost:11434',
   
   // Free AI model mappings to open-source alternatives
   AI_MODELS: {
@@ -139,7 +139,7 @@ export const AI_CONFIG = {
   HUGGINGFACE_API: {
     enabled: false, // Set to true if you want to use HuggingFace
     url: 'https://api-inference.huggingface.co/models',
-    token: process.env.HUGGINGFACE_TOKEN || '', // Optional free API key
+    token: (typeof process !== 'undefined' && process.env?.HUGGINGFACE_TOKEN) || '', // Optional free API key
     models: {
       'text-generation': 'meta-llama/Llama-3.2-3B-Instruct',
       'text-classification': 'distilbert-base-uncased',
