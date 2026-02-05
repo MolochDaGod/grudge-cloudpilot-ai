@@ -33,6 +33,7 @@
                     <div class="status-dot"></div>
                     <span>Checking...</span>
                 </div>
+                <button class="btn-icon" id="loginBtn" title="Login/Logout" style="display: none;">🔐</button>
                 <button class="btn-icon" id="settingsBtn" title="Settings">⚙️</button>
                 <button class="btn-icon" id="themeToggle" title="Toggle Theme">🌓</button>
             </div>
@@ -52,15 +53,15 @@
                 <div class="welcome-screen">
                     <div class="welcome-icon">✨</div>
                     <h2>Welcome to ALE Legion</h2>
-                    <p>Your free, privacy-focused AI assistant</p>
+                    <p>Your free AI assistant powered by Puter.js</p>
                     <div class="features-grid">
                         <div class="feature">
                             <span class="feature-icon">🔒</span>
-                            <span>100% Private</span>
+                            <span>Secure Login</span>
                         </div>
                         <div class="feature">
                             <span class="feature-icon">⚡</span>
-                            <span>Lightning Fast</span>
+                            <span>Real AI (GPT-5 nano)</span>
                         </div>
                         <div class="feature">
                             <span class="feature-icon">💰</span>
@@ -68,7 +69,7 @@
                         </div>
                         <div class="feature">
                             <span class="feature-icon">🌐</span>
-                            <span>Works Offline</span>
+                            <span>Cloud Powered</span>
                         </div>
                     </div>
                     <div class="quick-actions">
@@ -199,6 +200,8 @@
     <div class="toast-container" id="toastContainer"></div>
 
     <!-- Scripts -->
+    <!-- Puter.js SDK for authentication and AI -->
+    <script src="https://js.puter.com/v2/"></script>
     <script type="module" src="app.js"></script>
 </body>
 </html>

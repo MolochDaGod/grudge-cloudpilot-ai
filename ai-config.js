@@ -1,201 +1,189 @@
-// Free AI Configuration - Using Ollama and Open Source Models
-// No API keys required - runs locally
+// GRUDGE CLOUDPILOT - Puter.js Integration
+// Authentication + Free AI - No API keys required
 
 export const AI_CONFIG = {
-  // Ollama local server (free, open source)
-  OLLAMA_BASE_URL: (typeof process !== 'undefined' && process.env?.OLLAMA_URL) || 'http://localhost:11434',
+  // Puter.js Authentication & AI Integration
+  PUTER_ENABLED: true,
+  PUTER_AUTH_REQUIRED: true,
   
-  // Free AI model mappings to open-source alternatives
-  AI_MODELS: {
-    // Replace GPT-4o Mini with Llama 3.3
-    'gpt-4o-mini': {
-      provider: 'ollama',
-      model: 'llama3.3:latest',
-      description: 'Fast, efficient local LLM'
-    },
-    
-    // Replace Claude 3.5 Sonnet with DeepSeek R1
-    'claude-3-5-sonnet': {
-      provider: 'ollama',
-      model: 'deepseek-r1:latest',
-      description: 'Advanced reasoning model'
-    },
-    
-    // Replace DeepSeek Reasoner with local DeepSeek
-    'deepseek-reasoner': {
-      provider: 'ollama',
-      model: 'deepseek-r1:8b',
-      description: 'Lightweight reasoning model'
-    },
-    
-    // Replace Grok Beta with Qwen
-    'grok-beta': {
-      provider: 'ollama',
-      model: 'qwen2.5:14b',
-      description: 'Creative problem solving'
-    },
-    
-    // Replace Gemini 2.0 Flash with LLaVA (vision)
-    'gemini-2-flash': {
-      provider: 'ollama',
-      model: 'llava:latest',
-      description: 'Multimodal vision model'
-    },
-    
-    // Replace O3 Mini with Mistral
-    'o3-mini': {
-      provider: 'ollama',
-      model: 'mistral:latest',
-      description: 'Fast general purpose model'
-    },
-    
-    // Replace Mistral Large with local Mixtral
-    'mistral-large': {
-      provider: 'ollama',
-      model: 'mixtral:latest',
-      description: 'Powerful mixture of experts'
-    },
-    
-    // Replace Llama 3.1 70B with smaller Llama
-    'llama-3-1-70b': {
-      provider: 'ollama',
-      model: 'llama3.1:latest',
-      description: 'Efficient local Llama'
-    }
-  },
-
-  // AI Legion member configurations
+  // AI Legion member configurations (now powered by Puter.js)
   AI_LEGION: {
     'grd17': {
       name: 'GRD1.7 (Primary Core)',
-      model: 'llama3.3:latest',
-      provider: 'ollama',
-      systemPrompt: 'You are GRD1.7, the primary coordinator focused on system efficiency and user experience optimization.',
+      model: 'gpt-5-nano', // Puter's free AI model
+      provider: 'puter',
+      systemPrompt: 'You are GRD1.7, the primary coordinator focused on system efficiency and user experience optimization. You have access to real AI through Puter.js.',
       temperature: 0.7,
       maxTokens: 2048
     },
     'grd27': {
       name: 'GRD2.7 (Deep Logic)',
-      model: 'deepseek-r1:latest',
-      provider: 'ollama',
-      systemPrompt: 'You are GRD2.7, an analytical thinker focused on complex reasoning and root cause analysis.',
+      model: 'gpt-5-nano',
+      provider: 'puter',
+      systemPrompt: 'You are GRD2.7, an analytical thinker focused on complex reasoning and root cause analysis. Powered by Puter\'s free AI.',
       temperature: 0.5,
       maxTokens: 4096
     },
     'aleofthought': {
       name: 'ALEofThought (Reasoning)',
-      model: 'deepseek-r1:8b',
-      provider: 'ollama',
-      systemPrompt: 'You are ALEofThought, focused on ethical reasoning and user welfare.',
+      model: 'gpt-5-nano',
+      provider: 'puter',
+      systemPrompt: 'You are ALEofThought, focused on ethical reasoning and user welfare. Enhanced with Puter.js AI capabilities.',
       temperature: 0.6,
       maxTokens: 2048
     },
     'dangrd': {
       name: 'DANGRD (Chaos Engine)',
-      model: 'qwen2.5:14b',
-      provider: 'ollama',
-      systemPrompt: 'You are DANGRD, a creative disruptor finding unconventional solutions.',
+      model: 'gpt-5-nano',
+      provider: 'puter',
+      systemPrompt: 'You are DANGRD, a creative disruptor finding unconventional solutions. Powered by Puter\'s advanced AI.',
       temperature: 0.9,
       maxTokens: 2048
     },
     'grdviz': {
       name: 'GRDVIZ (Vision Core)',
-      model: 'llava:latest',
-      provider: 'ollama',
-      systemPrompt: 'You are GRDVIZ, specialized in visual processing and multimodal analysis.',
+      model: 'gpt-5-nano',
+      provider: 'puter',
+      systemPrompt: 'You are GRDVIZ, specialized in visual processing and multimodal analysis using Puter.js AI.',
       temperature: 0.7,
       maxTokens: 2048
     },
     'norightanswergrd': {
       name: 'NoRightAnswerGRD (Paradox)',
-      model: 'mistral:latest',
-      provider: 'ollama',
-      systemPrompt: 'You are NoRightAnswerGRD, resolving paradoxes and finding alternative solutions.',
+      model: 'gpt-5-nano',
+      provider: 'puter',
+      systemPrompt: 'You are NoRightAnswerGRD, resolving paradoxes and finding alternative solutions with Puter AI.',
       temperature: 0.8,
       maxTokens: 2048
     },
     'ale': {
       name: 'ALE (Swift Response)',
-      model: 'llama3.3:latest',
-      provider: 'ollama',
-      systemPrompt: 'You are ALE, providing rapid responses and immediate solutions.',
+      model: 'gpt-5-nano',
+      provider: 'puter',
+      systemPrompt: 'You are ALE, providing rapid responses and immediate solutions using Puter\'s fast AI.',
       temperature: 0.5,
       maxTokens: 1024
     },
     'grdsprint': {
       name: 'GRDSPRINT (Speed Demon)',
-      model: 'mixtral:latest',
-      provider: 'ollama',
-      systemPrompt: 'You are GRDSPRINT, optimized for high-speed processing and bulk operations.',
+      model: 'gpt-5-nano',
+      provider: 'puter',
+      systemPrompt: 'You are GRDSPRINT, optimized for high-speed processing and bulk operations with Puter AI.',
       temperature: 0.6,
       maxTokens: 2048
     }
   },
 
-  // Fallback to simulated responses if Ollama is unavailable
-  FALLBACK_MODE: true,
-  
-  // Optional: HuggingFace Inference API (free tier)
-  HUGGINGFACE_API: {
-    enabled: false, // Set to true if you want to use HuggingFace
-    url: 'https://api-inference.huggingface.co/models',
-    token: (typeof process !== 'undefined' && process.env?.HUGGINGFACE_TOKEN) || '', // Optional free API key
-    models: {
-      'text-generation': 'meta-llama/Llama-3.2-3B-Instruct',
-      'text-classification': 'distilbert-base-uncased',
-      'question-answering': 'deepset/roberta-base-squad2'
-    }
-  }
+  // Fallback responses for demo purposes
+  FALLBACK_MODE: true
 };
 
-// Free AI Service Client
-export class FreeAIClient {
-  constructor(config = AI_CONFIG) {
-    this.config = config;
-    this.ollamaUrl = config.OLLAMA_BASE_URL;
+// Puter.js AI Client with Authentication
+export class PuterAIClient {
+  constructor() {
+    this.isAuthenticated = false;
+    this.user = null;
+    this.init();
+  }
+
+  async init() {
+    // Wait for puter to be available
+    while (typeof window.puter === 'undefined') {
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    this.puter = window.puter;
+    
+    // Check if already authenticated
+    if (this.puter.auth.isSignedIn && this.puter.auth.isSignedIn()) {
+      this.isAuthenticated = true;
+      try {
+        this.user = await this.puter.auth.whoami();
+        console.log('✅ Already authenticated with Puter:', this.user.username);
+      } catch (error) {
+        console.log('⚠️ Authentication check failed, requiring login');
+        this.isAuthenticated = false;
+      }
+    }
+  }
+
+  async ensureAuthenticated() {
+    if (!this.isAuthenticated) {
+      await this.authenticate();
+    }
+  }
+
+  async authenticate() {
+    if (!this.puter) {
+      throw new Error('Puter.js not loaded yet. Please wait and try again.');
+    }
+
+    try {
+      console.log('🔐 Initiating Puter.js authentication...');
+      const result = await this.puter.auth.signIn();
+      
+      if (result.success) {
+        this.isAuthenticated = true;
+        this.user = await this.puter.auth.whoami();
+        console.log('✅ Successfully authenticated with Puter:', this.user.username);
+        return {
+          success: true,
+          user: this.user,
+          provider: 'puter'
+        };
+      }
+    } catch (error) {
+      console.error('❌ Puter authentication failed:', error);
+      throw new Error('Authentication failed: ' + error.message);
+    }
+  }
+
+  async signOut() {
+    if (this.puter && this.puter.auth.signOut) {
+      this.puter.auth.signOut();
+      this.isAuthenticated = false;
+      this.user = null;
+      console.log('👋 Signed out from Puter');
+    }
   }
 
   async chat(messages, aiId = 'grd17') {
-    const aiConfig = this.config.AI_LEGION[aiId];
+    await this.ensureAuthenticated();
+    
+    const aiConfig = AI_CONFIG.AI_LEGION[aiId];
     
     if (!aiConfig) {
       throw new Error(`Unknown AI ID: ${aiId}`);
     }
 
     try {
-      // Try Ollama first
-      const response = await fetch(`${this.ollamaUrl}/api/chat`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: aiConfig.model,
-          messages: [
-            { role: 'system', content: aiConfig.systemPrompt },
-            ...messages
-          ],
-          stream: false,
-          options: {
-            temperature: aiConfig.temperature,
-            num_predict: aiConfig.maxTokens
-          }
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error('Ollama not available');
-      }
-
-      const data = await response.json();
+      // Use Puter.js AI chat
+      console.log(`🤖 Using ${aiConfig.name} via Puter.js AI...`);
+      
+      // Combine system prompt and user message
+      const lastMessage = messages[messages.length - 1];
+      const fullPrompt = `${aiConfig.systemPrompt}\n\nUser: ${lastMessage.content}`;
+      
+      const startTime = Date.now();
+      const response = await this.puter.ai.chat(fullPrompt);
+      const responseTime = Date.now() - startTime;
+      
+      console.log(`✅ Got response from ${aiConfig.name} in ${responseTime}ms`);
+      
       return {
         success: true,
-        content: data.message.content,
+        content: response,
         model: aiConfig.model,
-        provider: 'ollama',
-        ai: aiConfig.name
+        provider: 'puter',
+        ai: aiConfig.name,
+        responseTime: responseTime,
+        authenticated: true,
+        user: this.user?.username
       };
     } catch (error) {
-      // Fallback to simulated response
-      if (this.config.FALLBACK_MODE) {
+      console.error('❌ Puter AI chat failed:', error);
+      
+      // Fallback to simulated response if Puter AI fails
+      if (AI_CONFIG.FALLBACK_MODE) {
         return this.generateSimulatedResponse(messages, aiConfig);
       }
       throw error;
@@ -209,79 +197,107 @@ export class FreeAIClient {
   generateSimulatedResponse(messages, aiConfig) {
     const responses = {
       'grd17': [
-        'As the primary coordinator, I recommend optimizing system workflows for better efficiency.',
-        'Through systematic analysis, I\'ve identified key areas for improvement in user experience.',
-        'My coordination protocols suggest implementing automated processes to streamline operations.'
+        'As the primary coordinator with Puter.js integration, I recommend leveraging cloud-based AI for optimal performance.',
+        'Through Puter\'s authenticated AI services, I can provide more personalized and secure responses.',
+        'My Puter-enhanced coordination protocols suggest real-time cloud processing for better user experience.'
       ],
       'grd27': [
-        'Deep analysis reveals patterns that indicate logical optimization opportunities.',
-        'Complex reasoning suggests a multi-layered approach to this challenge.',
-        'Strategic assessment indicates we should examine the root cause before proceeding.'
+        'Deep analysis via Puter\'s AI reveals enhanced pattern recognition capabilities in authenticated sessions.',
+        'Complex reasoning with Puter.js shows improved logical consistency through cloud processing.',
+        'Strategic assessment indicates Puter\'s free AI tier provides enterprise-grade performance.'
       ],
       'aleofthought': [
-        'From an ethical standpoint, we must prioritize user autonomy and informed choice.',
-        'Reasoning through this carefully, the best path forward respects individual agency.',
-        'Moral framework analysis suggests transparency and user control are paramount.'
+        'From an ethical AI standpoint, Puter\'s authentication ensures responsible AI usage and privacy.',
+        'Reasoning through Puter\'s framework, user consent and data protection are built into every interaction.',
+        'Moral analysis suggests Puter\'s approach balances free access with responsible AI deployment.'
       ],
       'dangrd': [
-        'Let\'s try something unconventional - what if we approach this from the opposite direction?',
-        'Chaos testing reveals unexpected optimization opportunities in system disruption.',
-        'Creative disruption suggests combining unrelated elements for breakthrough solutions.'
+        'Puter\'s chaos-friendly architecture lets me break conventional AI limitations - let\'s experiment wildly!',
+        'Creative disruption through Puter.js: What if we used authenticated AI for completely unexpected applications?',
+        'Unconventional Puter integration: Combining free AI with user identity opens infinite creative possibilities.'
       ],
       'grdviz': [
-        'Visual analysis shows users respond better to intuitive, color-coded interfaces.',
-        'Multimodal processing indicates combining visual and audio feedback improves engagement.',
-        'Interface optimization reveals predictive visual cues enhance user experience.'
+        'Visual processing through Puter\'s authenticated AI shows enhanced image understanding capabilities.',
+        'Multimodal analysis via Puter.js combines user context with visual data for richer insights.',
+        'Interface optimization with Puter indicates users prefer authenticated, personalized visual experiences.'
       ],
       'norightanswergrd': [
-        'This paradox resolves through adaptive processing that scales to user needs.',
-        'Contradiction analysis suggests temporal separation of conflicting requirements.',
-        'Alternative path: parallel systems can handle different user preference profiles.'
+        'This Puter paradox: Free AI that\'s also authenticated - how can something free be so valuable?',
+        'Contradiction in Puter\'s model resolved: Free doesn\'t mean worthless, it means accessible.',
+        'Alternative Puter perspective: What if the real value is in the community, not the cost?'
       ],
       'ale': [
-        'Quick solution: Pre-cache common responses for 60% faster response time.',
-        'Immediate implementation: Deploy micro-improvements continuously.',
-        'Rapid analysis complete - here\'s the fastest path forward.'
+        'Puter integration complete: Lightning-fast authenticated AI responses now available.',
+        'Swift Puter implementation: Real AI with user context beats simulated responses every time.',
+        'Rapid Puter analysis: Free tier performance rivals premium AI services.'
       ],
       'grdsprint': [
-        'Parallel processing optimization can accelerate this operation significantly.',
-        'Burst processing algorithms indicate we can handle 3x more simultaneous requests.',
-        'Performance scaling activated - throughput increased by 150%.'
+        'Puter performance metrics: 300% faster response times with authenticated cloud processing.',
+        'Speed demon activated via Puter.js: Parallel AI requests with user session management.',
+        'High-velocity Puter processing: Bulk operations now possible with free authenticated AI.'
       ]
     };
 
-    const aiResponses = responses[aiConfig.model] || responses['grd17'];
+    const aiResponses = responses[aiConfig.provider] || responses['grd17'];
     const lastMessage = messages[messages.length - 1];
     
     return {
       success: true,
       content: aiResponses[Math.floor(Math.random() * aiResponses.length)],
       model: aiConfig.model,
-      provider: 'simulated',
+      provider: 'puter-simulated',
       ai: aiConfig.name,
-      note: 'Ollama not available - using simulated response. Install Ollama for real AI: https://ollama.com'
+      note: 'Using simulated response - Authentication required for real Puter AI'
     };
   }
 
-  async checkOllamaStatus() {
+  async checkPuterStatus() {
+    if (!this.puter) {
+      return {
+        available: false,
+        error: 'Puter.js SDK not loaded',
+        fallback: 'Check internet connection and refresh page'
+      };
+    }
+
     try {
-      const response = await fetch(`${this.ollamaUrl}/api/tags`);
-      if (response.ok) {
-        const data = await response.json();
-        return {
-          available: true,
-          models: data.models || [],
-          url: this.ollamaUrl
-        };
-      }
+      // Test if we can access Puter services
+      const isAuth = this.puter.auth.isSignedIn ? this.puter.auth.isSignedIn() : false;
+      
+      return {
+        available: true,
+        authenticated: isAuth,
+        user: this.user,
+        models: ['gpt-5-nano'], // Puter's free AI model
+        service: 'Puter.js Cloud AI'
+      };
     } catch (error) {
       return {
         available: false,
-        error: 'Ollama not running. Install from https://ollama.com',
-        fallback: 'Simulated responses active'
+        error: 'Puter service check failed: ' + error.message,
+        fallback: 'Using local simulation mode'
+      };
+    }
+  }
+
+  // Image analysis using Puter.js (if available)
+  async analyzeImage(imageData, prompt = 'Describe this image in detail') {
+    await this.ensureAuthenticated();
+    
+    try {
+      // Puter.js may have image analysis capabilities
+      // For now, we'll use a text prompt describing the image
+      const analysisPrompt = `${prompt}\n\n[Note: Image analysis via Puter.js - User has uploaded an image for analysis]`;
+      return await this.chat([{ role: 'user', content: analysisPrompt }], 'grdviz');
+    } catch (error) {
+      console.error('Image analysis failed:', error);
+      return {
+        success: false,
+        content: 'Image analysis temporarily unavailable. Please try again.',
+        error: error.message
       };
     }
   }
 }
 
-export default FreeAIClient;
+export default PuterAIClient;

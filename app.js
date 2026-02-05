@@ -1,11 +1,11 @@
-// ALE Legion Web App - Complete Implementation
-// Features: AI Chat, Image Analysis, Streaming, Particle Effects, Stats, Dark Mode
+// ALE Legion Web App - Puter.js Integration
+// Features: Puter Authentication, Real AI, Image Analysis, Streaming, Particle Effects, Stats, Dark Mode
 
-import { FreeAIClient, AI_CONFIG } from './ai-config.js';
+import { PuterAIClient, AI_CONFIG } from './ai-config.js';
 
 class ALELegionApp {
     constructor() {
-        this.aiClient = new FreeAIClient();
+        this.aiClient = new PuterAIClient();
         this.currentAI = 'grd17';
         this.messages = [];
         this.stats = {
@@ -14,6 +14,8 @@ class ALELegionApp {
             accuracy: 100
         };
         this.currentImage = null;
+        this.isAuthenticated = false;
+        this.user = null;
         this.settings = {
             stream: true,
             codeHighlight: true,
@@ -31,8 +33,9 @@ class ALELegionApp {
         this.initializeAICards();
         this.initializeParticles();
         await this.checkAIStatus();
+        this.updateLoginUI();
         this.loadSettings();
-        this.showToast('Welcome to ALE Legion!', 'Free AI Studio is ready', 'success');
+        this.showToast('Welcome to ALE Legion!', 'Powered by Puter.js - Sign in for real AI', 'success');
     }
 
     initializeElements() {
@@ -64,6 +67,7 @@ class ALELegionApp {
         
         // Settings
         this.themeToggle = document.getElementById('themeToggle');
+        this.loginBtn = document.getElementById('loginBtn');
         this.streamResponses = document.getElementById('streamResponses');
         this.codeHighlight = document.getElementById('codeHighlight');
         this.soundEffects = document.getElementById('soundEffects');
@@ -118,6 +122,9 @@ class ALELegionApp {
         // Theme toggle
         this.themeToggle.addEventListener('click', () => this.toggleTheme());
 
+        // Login/Logout button
+        this.loginBtn.addEventListener('click', () => this.toggleLogin());
+
         // Settings
         this.streamResponses.addEventListener('change', (e) => {
             this.settings.stream = e.target.checked;
@@ -149,14 +156,14 @@ class ALELegionApp {
 
     initializeAICards() {
         const aiLegion = [
-            { id: 'grd17', name: 'GRD1.7', icon: '🎯', model: 'Llama 3.3', description: 'Primary Coordinator' },
-            { id: 'grd27', name: 'GRD2.7', icon: '🧠', model: 'DeepSeek R1', description: 'Deep Logic' },
-            { id: 'aleofthought', name: 'ALEofThought', icon: '🤔', model: 'DeepSeek R1 8B', description: 'Reasoning' },
-            { id: 'dangrd', name: 'DANGRD', icon: '⚡', model: 'Qwen 2.5', description: 'Chaos Engine' },
-            { id: 'grdviz', name: 'GRDVIZ', icon: '👁️', model: 'LLaVA', description: 'Vision Core' },
-            { id: 'norightanswergrd', name: 'NoRightAnswer', icon: '❓', model: 'Mistral', description: 'Paradox Resolver' },
-            { id: 'ale', name: 'ALE', icon: '🚀', model: 'Llama 3.3', description: 'Swift Response' },
-            { id: 'grdsprint', name: 'GRDSPRINT', icon: '💨', model: 'Mixtral', description: 'Speed Demon' }
+            { id: 'grd17', name: 'GRD1.7', icon: '🎯', model: 'GPT-5 nano', description: 'Primary Coordinator' },
+            { id: 'grd27', name: 'GRD2.7', icon: '🧠', model: 'GPT-5 nano', description: 'Deep Logic' },
+            { id: 'aleofthought', name: 'ALEofThought', icon: '🤔', model: 'GPT-5 nano', description: 'Reasoning' },
+            { id: 'dangrd', name: 'DANGRD', icon: '⚡', model: 'GPT-5 nano', description: 'Chaos Engine' },
+            { id: 'grdviz', name: 'GRDVIZ', icon: '👁️', model: 'GPT-5 nano', description: 'Vision Core' },
+            { id: 'norightanswergrd', name: 'NoRightAnswer', icon: '❓', model: 'GPT-5 nano', description: 'Paradox Resolver' },
+            { id: 'ale', name: 'ALE', icon: '🚀', model: 'GPT-5 nano', description: 'Swift Response' },
+            { id: 'grdsprint', name: 'GRDSPRINT', icon: '💨', model: 'GPT-5 nano', description: 'Speed Demon' }
         ];
 
         this.aiGrid.innerHTML = aiLegion.map(ai => `
@@ -184,7 +191,8 @@ class ALELegionApp {
         });
 
         const aiConfig = AI_CONFIG.AI_LEGION[aiId];
-        this.modelInfo.textContent = `Using: ${aiConfig.name} (${aiConfig.model})`;
+        const authStatus = this.isAuthenticated ? '✅' : '🔐';
+        this.modelInfo.textContent = `Using: ${aiConfig.name} (${aiConfig.model}) ${authStatus}`;
         
         this.showToast('AI Selected', `Switched to ${aiConfig.name}`, 'info');
         this.playSound('select');
@@ -195,23 +203,31 @@ class ALELegionApp {
         const statusText = this.statusIndicator.querySelector('span');
         
         statusDot.className = 'status-dot checking';
-        statusText.textContent = 'Checking...';
+        statusText.textContent = 'Checking Puter status...';
 
         try {
-            const status = await this.aiClient.checkOllamaStatus();
+            const status = await this.aiClient.checkPuterStatus();
             
             if (status.available) {
-                statusDot.className = 'status-dot';
-                statusText.textContent = `Ollama Online (${status.models.length} models)`;
+                if (status.authenticated) {
+                    statusDot.className = 'status-dot';
+                    statusText.textContent = `✅ Authenticated (${status.user?.username || 'User'})`;
+                    this.isAuthenticated = true;
+                    this.user = status.user;
+                } else {
+                    statusDot.className = 'status-dot checking';
+                    statusText.textContent = '🔐 Login Required';
+                    this.isAuthenticated = false;
+                }
                 this.updateModelsList(status.models);
             } else {
-                statusDot.className = 'status-dot checking';
-                statusText.textContent = 'Simulated Mode';
+                statusDot.className = 'status-dot error';
+                statusText.textContent = 'Puter Offline - Simulated Mode';
                 this.updateModelsList([]);
             }
         } catch (error) {
-            statusDot.className = 'status-dot checking';
-            statusText.textContent = 'Simulated Mode';
+            statusDot.className = 'status-dot error';
+            statusText.textContent = 'Connection Error - Simulated Mode';
             this.updateModelsList([]);
         }
     }
@@ -221,7 +237,7 @@ class ALELegionApp {
             this.modelsListEl.innerHTML = `
                 <div class="model-item">
                     <span>Simulated AI</span>
-                    <span class="model-status"></span>
+                    <span class="model-status inactive"></span>
                 </div>
             `;
             return;
@@ -229,8 +245,8 @@ class ALELegionApp {
 
         this.modelsListEl.innerHTML = models.map(model => `
             <div class="model-item">
-                <span>${model.name || model}</span>
-                <span class="model-status"></span>
+                <span>${model === 'gpt-5-nano' ? 'GPT-5 nano (Puter Free)' : model}</span>
+                <span class="model-status ${this.isAuthenticated ? '' : 'inactive'}"></span>
             </div>
         `).join('');
     }
@@ -238,6 +254,31 @@ class ALELegionApp {
     async sendMessage() {
         const text = this.messageInput.value.trim();
         if (!text && !this.currentImage) return;
+
+        // Check authentication first
+        if (!this.isAuthenticated) {
+            try {
+                this.showToast('Authentication Required', 'Please sign in to use real AI', 'info');
+                this.loadingOverlay.classList.add('active');
+                
+                const authResult = await this.aiClient.authenticate();
+                if (authResult.success) {
+                    this.isAuthenticated = true;
+                    this.user = authResult.user;
+                    
+                    // Update status
+                    await this.checkAIStatus();
+                    this.showToast('Welcome!', `Signed in as ${this.user.username}`, 'success');
+                } else {
+                    this.showToast('Authentication Failed', 'Using simulated mode', 'error');
+                }
+            } catch (error) {
+                this.showToast('Authentication Error', 'Using simulated mode instead', 'error');
+                console.error('Auth error:', error);
+            } finally {
+                this.loadingOverlay.classList.remove('active');
+            }
+        }
 
         // Clear welcome screen
         const welcomeScreen = this.chatMessages.querySelector('.welcome-screen');
@@ -268,7 +309,14 @@ class ALELegionApp {
                 messages[0].images = [this.currentImage];
             }
 
-            const response = await this.aiClient.chat(messages, this.currentAI);
+            let response;
+            if (this.currentImage) {
+                // Use image analysis for images
+                response = await this.aiClient.analyzeImage(this.currentImage, text || 'Describe this image');
+            } else {
+                // Regular chat
+                response = await this.aiClient.chat(messages, this.currentAI);
+            }
             
             const responseTime = Date.now() - startTime;
             this.stats.responseTimes.push(responseTime);
@@ -278,10 +326,10 @@ class ALELegionApp {
             this.removeTypingIndicator(typingId);
 
             // Add AI response
-            if (this.settings.stream) {
+            if (this.settings.stream && response.success) {
                 await this.streamMessage('ai', response.content, response);
             } else {
-                this.addMessage('ai', response.content, null, response);
+                this.addMessage('ai', response.success ? response.content : 'Error: ' + (response.error || 'Unknown error'), null, response);
             }
 
             this.updateStats();
@@ -290,7 +338,7 @@ class ALELegionApp {
         } catch (error) {
             this.removeTypingIndicator(typingId);
             this.showToast('Error', error.message, 'error');
-            this.addMessage('ai', '❌ Sorry, I encountered an error. Please try again.');
+            this.addMessage('ai', '❌ Sorry, I encountered an error. Please try again or check your authentication.');
         } finally {
             this.loadingOverlay.classList.remove('active');
             this.currentImage = null;
@@ -502,6 +550,56 @@ class ALELegionApp {
         this.saveSettings();
         
         this.showToast('Theme Changed', `Switched to ${newTheme} mode`, 'info');
+    }
+
+    async toggleLogin() {
+        if (this.isAuthenticated) {
+            // Sign out
+            try {
+                await this.aiClient.signOut();
+                this.isAuthenticated = false;
+                this.user = null;
+                this.updateLoginUI();
+                await this.checkAIStatus();
+                this.showToast('Signed Out', 'You have been signed out', 'info');
+            } catch (error) {
+                this.showToast('Error', 'Sign out failed: ' + error.message, 'error');
+            }
+        } else {
+            // Sign in
+            try {
+                this.loadingOverlay.classList.add('active');
+                const authResult = await this.aiClient.authenticate();
+                if (authResult.success) {
+                    this.isAuthenticated = true;
+                    this.user = authResult.user;
+                    this.updateLoginUI();
+                    await this.checkAIStatus();
+                    this.showToast('Welcome!', `Signed in as ${this.user.username}`, 'success');
+                }
+            } catch (error) {
+                this.showToast('Authentication Failed', error.message, 'error');
+            } finally {
+                this.loadingOverlay.classList.remove('active');
+            }
+        }
+    }
+
+    updateLoginUI() {
+        if (this.isAuthenticated) {
+            this.loginBtn.textContent = '👤';
+            this.loginBtn.title = `Signed in as ${this.user?.username || 'User'} - Click to sign out`;
+            this.loginBtn.style.display = 'block';
+        } else {
+            this.loginBtn.textContent = '🔐';
+            this.loginBtn.title = 'Click to sign in with Puter';
+            this.loginBtn.style.display = 'block';
+        }
+
+        // Update model info for currently selected AI
+        const aiConfig = AI_CONFIG.AI_LEGION[this.currentAI];
+        const authStatus = this.isAuthenticated ? '✅' : '🔐';
+        this.modelInfo.textContent = `Using: ${aiConfig.name} (${aiConfig.model}) ${authStatus}`;
     }
 
     showToast(title, message, type = 'info') {
